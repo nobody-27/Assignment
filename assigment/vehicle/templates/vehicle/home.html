@@ -1,0 +1,70 @@
+{%  extends "vehicle/base.html" %}
+{% load static %}
+{% block content %}
+
+
+<div class="container">
+  <h1 class="text-primary text-uppercase text-center">Assigement</h1>
+  <p class="text-primary" style=" text-align: left;">Permision You have {{permision}}</p>
+  <div class="d-flex justify-content-end">
+
+
+    {% if perms.vehicle.add_vehicle %}
+      <button type="button" id="modal-popup" class="btn btn-primary" data-backdrop="false">
+        Add New Record
+      </button>
+    {% else %}
+      <button type="button" id="" class="btn btn-danger" data-backdrop="false">
+        Add New Record Not Have Permision
+      </button>
+    {% endif %}
+  </div>
+  </div>
+
+
+ 
+  <h2 class="text-sucess p-3">All Records</h2>
+
+  <div id="records_content" class="p-3">
+      <table class="table table-bordered table-striped">
+        <tr>
+          <th>No.</th>
+          <th>Vehicle Number</th>
+          <th>Model</th>
+          <th>Type</th>
+          <th>Descroption</th>
+          <th>Edit</th>
+          <th>Delete</th>
+        </tr>
+
+        {% for vehicle in vehicle_obj %}
+          <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{vehicle.number}}</td>
+            <td>{{vehicle.model}}</td>
+            <td>{{vehicle.type}}</td>
+            <td>{{vehicle.decription}}</td>
+
+
+            {% if perms.vehicle.change_vehicle %}
+                <td><button  id="edit" onclick="edit(this.getAttribute('data-id'))" data-id="{{vehicle.id}}" class="btn btn-info">Edit</button></td>
+            {% else %}
+                <td><button class="btn btn-warning">Not Have Permision</button></td>
+            {% endif %}
+
+
+            {% if perms.vehicle.delete_vehicle %}
+              <td><button id="delete" onclick="delete_vehicle(this.getAttribute('data-id'))" data-id="{{vehicle.id}}" class="btn btn-danger">Delete</button></td>
+            {% else %}
+                <td><button class="btn btn-danger">Not Have Permision</button></td>
+            {% endif %}
+
+          </tr>
+        {% endfor %}
+      </table>
+  </div>
+
+{% endblock %}
+
+
+
