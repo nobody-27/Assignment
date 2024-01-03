@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import View
+a="32432"
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -72,11 +73,14 @@ class Books_Apiview(APIView):
     def delete(self,request,pk):
         book = self.get_book_or_404(pk)
         book.delete()
-        return Response({"book deleted sucessfully!"},status=status.HTTP_204_NO_CONTENT)
+        
+        return Response({"message": "book deleted sucessfully!",}, status=status.HTTP_204_NO_CONTENT)
 
 
 class GenerateVideoAPIView(APIView):
     serializer_class = Videoserializer
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
     
     def post(self,request,*args,**kwargs):
         serializer = self.serializer_class(data=request.data)
